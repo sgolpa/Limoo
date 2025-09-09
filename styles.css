@@ -526,7 +526,7 @@ body.modal-open {
 /* Fullskärm på mobil */
 @media (max-width: 480px) {
   .modal__dialog {
-    position: fixed;   /* istället för absolute */
+    position: fixed;
     inset: 0;          /* fyll hela viewporten */
     left: auto; top: auto; 
     transform: none;   /* ta bort centrerings-translate */
@@ -537,10 +537,18 @@ body.modal-open {
     border: 0;         /* valfritt: ta bort kantlinje */
   }
 
-  /* valfritt men bra för layouten i helskärm */
-  .modal__content { flex: 1; min-height: 0; overflow: auto; }
-  .modal__header  { padding: 24px 24px 0; }
-  .modal__footer  { padding: 24px 24px 24px; }
+  .modal__content { 
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
+  overscroll-behavior: contain;
+ }
+  .modal__header  { 
+    padding: 24px 24px 0; 
+  }
+  .modal__footer  { 
+    position: relative;
+    padding: 24px 24px 24px; }
 }
 
 /* Mobil-justering (små skärmar) */
