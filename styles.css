@@ -1,0 +1,636 @@
+:root {
+  --lime-light: #D0E090;
+  --lime-medium: #B3D058;
+  --lime-dark: #27580E;
+  --text: #EAF2CF;
+  --gray: #6E8D5E;
+  --divider: #435639;
+  --bg: #233C16;
+  --lime-skin: #469D1A;
+  --al-white: #FCFDF7;
+
+  /* Tick-ikon */
+  --tick-circle: var(--lime-skin);
+  --tick-check: var(--al-white);
+  --tick-circle-active: var(--lime-skin);
+  --tick-check-active: var(--al-white);
+}
+
+/* ================= Base ================= */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Lexend Exa', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* ================= Header ================= */
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 16px 16px;
+}
+
+.logo svg {
+  width: 120px;
+  height: 22px;
+  display: block;
+}
+
+/* ================= Hero ================= */
+.hero {
+  margin-top: 56px;
+  display: flex;
+  justify-content: center;
+  padding: 0 16px;
+}
+
+.hero-copy {
+  font-family: "Instrument Serif", serif;
+  font-weight: 400;
+  text-align: center;
+  color: var(--lime-medium);
+  font-size: 44px;
+  line-height: 48px;
+  max-width: 864px;
+  width: calc(100% - 32px);
+  margin: 0 auto;
+}
+
+/* ================= Chip ================= */
+.chip {
+  display: inline-flex;
+  min-width: 89px;
+  padding: 16px 18px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 999px;
+  background: var(--lime-light);
+  color: var(--lime-dark);
+  text-align: center;
+  font-family: 'Lexend Exa', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  border: none;
+  cursor: pointer;
+  transition: background .2s ease, transform .05s ease;
+}
+
+.chip:active {
+  transform: scale(.98);
+}
+
+.chip:hover {
+  background: var(--lime-medium);  
+}
+
+.chip.is-active:hover {
+  background: #A2C23D;     
+}
+
+.chip .tick {
+  display: none;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.chip .tick rect {
+  fill: var(--tick-circle);
+}
+
+.chip .tick path {
+  fill: var(--tick-check);
+}
+
+.chip.is-active {
+  background: var(--lime-medium);
+  gap: 6px;
+}
+
+.chip.is-active .tick {
+  display: inline-block;
+}
+
+.chip.is-active .tick rect {
+  fill: var(--tick-circle-active);
+}
+
+.chip.is-active .tick path {
+  fill: var(--tick-check-active);
+}
+
+/* ================= Chip cloud ================= */
+.chip-cloud {
+  display: flex;
+  flex-wrap: wrap;          /* får bryta rad */
+  justify-content: center;  /* centrera både första raden och ev. fler */
+  gap: 12px;
+  max-width: 960px;
+  width: calc(100% - 32px);
+  margin: 60px auto 80px;
+}
+
+.chip,
+.show-all-filters-btn {
+  flex: 0 0 auto;           /* varje chip/knapp behåller sin storlek */
+  white-space: nowrap;      /* ingen intern radbrytning */
+}
+
+/* ================= Show all filters (outlined chip) ================= */
+.show-all-filters-btn {
+  display: inline-flex;
+  justify-content: center;   /* <-- ändra från flex-start till center */
+  align-items: center;
+  padding: 16px 18px;
+  border-radius: 999px;
+  min-width: 89px;
+  flex: 0 0 auto;
+  white-space: nowrap;
+
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  box-shadow: none;
+  border: 1px solid var(--lime-light);
+
+  font-family: 'Lexend Exa', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+
+  color: var(--lime-light);
+  cursor: pointer;
+  transition: background .2s ease, transform .05s ease, border-color .2s ease;
+}
+
+.show-all-filters-btn:hover {
+  background: rgba(208, 224, 144, 0.10);
+}
+
+.show-all-filters-btn:active {
+  transform: scale(.98);
+}
+
+.show-all-filters-btn:focus-visible {
+  outline: 2px solid var(--lime-light);
+  outline-offset: 2px;
+}
+
+/* ================= List header ================= */
+.restaurant-header {
+  max-width: 960px;
+  width: calc(100% - 32px);
+  margin: 56px auto 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.restaurant-intro {
+  color: var(--lime-medium);
+  font-family: Lexend Exa, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+.clear-filters-wrapper {
+  display: flex;
+  justify-content: center;
+  margin: -40px auto 40px; /* justera avstånd: uppåt/neråt */
+  max-width: 960px;
+  width: calc(100% - 32px);
+}
+
+.clear-filters {
+  display: none;                       /* visas först när filtrerat */
+  padding: 16px 18px;                  /* ← samma som i dialogen */
+  border-radius: 999px;                /* ← pillform */
+  background: transparent;             /* ingen bakgrund i vila */
+  color: var(--lime-light);            /* samma färg som dialogen */
+  font-family: Lexend Exa, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background .2s ease, color .2s ease;
+}
+
+/* När den ska synas: använd inline-flex så storleken är stabil */
+.clear-filters.is-visible {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Hover: ändra bara bakgrunden – inte padding/size */
+.clear-filters:hover {
+  background: rgba(208,224,144,.10);   /* ← identisk pill-hover */
+  text-decoration: none;
+}
+
+/* ================= Restaurant list ================= */
+.restaurant-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  max-width: 960px;
+  width: calc(100% - 32px);
+  margin: 0 auto 80px;
+}
+
+.restaurant-item {
+  display: flex;
+  flex-direction: column;  /* stapla titel + ev. annat */
+  align-items: center;     /* centrera horisontellt */
+  padding: 24px 0;
+}
+
+.restaurant-title {
+  display: inline-flex;       /* behåll för ikon + text i rad */
+  justify-content: center;    /* centrera innehållet i länken */
+  align-items: center;
+  gap: 8px;
+  color: var(--lime-light);
+  font-family: "Instrument Serif", serif;
+  font-size: 44px;
+  font-weight: 400;
+  line-height: 52px;
+  text-decoration: none;
+  text-align: center;         /* centrera text om den bryter rad */
+  width: 100%;                /* gör länken lika bred som container */
+}
+
+.restaurant-title:hover {
+  color: #CEF859;
+}
+
+.restaurant-meta-line {
+  display: none;
+}
+
+/* ================= Restaurant tags (under titeln) ================= */
+.restaurant-tags {
+  margin-top: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;   /* centrera under titeln */
+  gap: 8px;
+}
+
+.restaurant-tag {
+  background: #345026;
+  color: var(--lime-medium);
+  font-family: Lexend Exa, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  padding: 8px 14px;       /* <--- matchar din box */
+  border-radius: 999px;    /* rund pillform */
+  white-space: nowrap;
+}
+
+.restaurant-list {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  max-width: 960px;
+  width: 100%;
+  margin: 0 auto 80px;
+}
+
+/* Alltid en top-border (bleed) på listan */
+.restaurant-list::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;                  /* <-- var 50vw */
+  transform: translateX(-50%);
+  width: 100vw;               /* full bleed */
+  border-top: 1px solid var(--divider);
+}
+
+/* Divider (bleed) mellan items */
+.restaurant-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 0;
+}
+
+.restaurant-item + .restaurant-item::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;                  /* <-- var 50vw */
+  transform: translateX(-50%);
+  width: 100vw;
+  border-top: 1px solid var(--divider);
+}
+
+/* (valfritt) undvik horizontell scroll på vissa mobiler */
+@supports (width: 100dvw) {
+  .restaurant-list::before,
+  .restaurant-item + .restaurant-item::before {
+    width: 100dvw;
+  }
+}
+
+@media (max-width: 480px) {
+  .restaurant-title {
+    font-size: 28px;
+    line-height: 36px;
+  }
+
+  .restaurant-maps {
+    justify-content: flex-start;
+  }
+}
+
+/* ================= Modal ================= */
+body.modal-open {
+  overflow: hidden;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  z-index: 1000;
+}
+
+.modal.is-open {
+  display: block;
+}
+
+.modal__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, .45);
+}
+
+.modal__dialog {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: calc(100% - 32px);
+  max-width: 960px;
+  height: 80vh;
+  background: var(--bg);
+  border-radius: 24px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.modal__header {
+  position: relative;
+  top: 0;
+  z-index: 1;
+  background: var(--bg);
+  display: flex;
+  justify-content: center;
+  padding: 40px 40px 0;
+}
+
+.modal__title {
+  color: var(--lime-medium);
+  text-align: center;
+  font-family: "Instrument Serif", serif;
+  font-size: 48px;
+  font-weight: 400;
+  line-height: 56px;
+  padding-bottom: 20px;
+  margin: auto;
+}
+
+.modal__close {
+  background: transparent;
+  border: none;
+  color: var(--lime-medium);
+  font-size: 24px;
+  line-height: 0;
+  cursor: pointer;
+  padding: 8px;
+  position: absolute;
+  top: 40px;   /* samma som headerns topp-padding */
+  right: 40px; /* samma som headerns höger-padding */
+  z-index: 2;
+}
+
+.modal__content {
+  overflow: auto;
+  padding: 24px 40px 40px;
+}
+
+.modal__section + .modal__section {
+  margin-top: 56px;
+}
+
+.modal__section-title {
+  color: var(--lime-light);
+  text-align: center;
+  font-family: Lexend Exa, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  margin-bottom: 20px;
+}
+
+.modal__chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+
+.modal__footer {
+  position: sticky;
+  bottom: 0;
+  z-index: 3;                       /* <-- ny: ligger över chipsen */
+  background: var(--lime-dark);
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  contain: paint;                   /* <-- ny: isolera paint */
+  backface-visibility: hidden;      /* <-- ny: iOS-jank fix */
+  transform: translateZ(0);         /* <-- ny: egen komposit-layer */
+}
+
+.modal-clear-filters {
+  display: inline-flex;              /* samma som på hover */
+  justify-content: center;
+  align-items: center;
+  padding: 16px 18px;               /* samma som på hover → ingen höjdändring */
+  border-radius: 999px;
+  color: var(--lime-light);
+  text-decoration: none;
+  transition: background .2s ease, color .2s ease; /* inga padding-transitions */
+}
+
+/* Modal CTA – outlined som startsidan */
+.modal__cta {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 16px 18px;           /* samma padding som startsidan */
+  min-width: 89px;
+  border-radius: 999px;
+
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;      /* ⬅️ viktig: ingen fill */
+  box-shadow: none;
+  border: 1px solid var(--lime-light);
+
+  font-family: 'Lexend Exa', sans-serif;
+  font-size: 16px;
+  font-weight: 700;             /* matchar startsidan */
+  line-height: 24px;
+
+  color: var(--lime-light);
+  cursor: pointer;
+  transition: background .2s ease, transform .05s ease, border-color .2s ease;
+}
+
+.modal__cta:hover {
+  background: rgba(208, 224, 144, 0.10);
+}
+
+.modal__cta:active {
+  transform: scale(.98);
+}
+
+.modal__cta:focus-visible {
+  outline: 2px solid var(--lime-light);
+  outline-offset: 2px;
+}
+
+/* Fullskärm på mobil */
+@media (max-width: 480px) {
+  .modal__dialog {
+    position: fixed;   /* istället för absolute */
+    inset: 0;          /* fyll hela viewporten */
+    left: auto; top: auto; 
+    transform: none;   /* ta bort centrerings-translate */
+    width: 100%;
+    height: 100svh;    /* stabil mobilhöjd */
+    max-width: none;
+    border-radius: 0;  /* inga rundade hörn i fullskärm */
+    border: 0;         /* valfritt: ta bort kantlinje */
+  }
+
+  /* valfritt men bra för layouten i helskärm */
+  .modal__content { flex: 1; min-height: 0; overflow: auto; }
+  .modal__header  { padding: 24px 24px 0; }
+  .modal__footer  { padding: 24px 24px 24px; }
+}
+
+/* Mobil-justering (små skärmar) */
+@media (max-width: 480px) {
+  /* Stapla i footern: CTA överst, Clear under */
+  .modal__footer {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  /* Gör CTA till en “pill”, inte cirkel */
+  .modal__cta {
+    width: 100%;
+    max-width: 320px;   /* valfritt; ta bort om du vill 100% */
+    white-space: nowrap;
+    height: auto;
+    aspect-ratio: auto;
+  }
+
+  /* Clear under CTA */
+  .modal-clear-filters {
+    margin: 0;
+  }
+
+  /* (valfritt) Headern: håll krysset i hörnet på små skärmar */
+  .modal__header { position: relative; justify-content: center; }
+  .modal__close  { position: absolute; top: 16px; right: 16px; }
+}
+
+@media (max-width: 480px) {
+  .modal__header {
+    position: relative;
+    justify-content: center;   /* centrera titeln */
+    align-items: flex-start;
+    padding: 24px 24px 0;
+  }
+  .modal__close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    padding: 12px;             /* bättre tap-yta */
+  }
+   .modal__title {
+    font-size: 32px;   /* t.ex. 32–36 funkar bra */
+    line-height: 38px; /* håll ~1.15–1.2 */
+    padding: 0 56px 16px; /* lämna plats för krysset, om du använder det */
+  }
+}
+/* Undvik överlapp i mellanlägen (smal desktop/tablet) */
+@media (max-width: 900px) and (min-width: 481px) {
+  .modal__title {
+    padding-right: 56px; /* ~ 24px ikon + 2×16px luft */
+  }
+}
+
+/* Hover om NÅGOT pekdon kan hovra (mus/trackpad på desktop/hybrid) */
+@media (any-hover: hover) {
+  .modal-clear-filters:hover,
+  .clear-filters:hover {
+    background: rgba(208,224,144,.10);
+    text-decoration: none;
+  }
+}
+
+/* Touch: fortfarande ingen hover (endast klick-feedback) */
+@media (hover: none) and (pointer: coarse) {
+  .modal-clear-filters:hover,
+  .clear-filters:hover {
+    background: transparent;
+  }
+}
+
+/* Mobil: behåll utan skalning (redan satt) */
+@media (hover: none) and (pointer: coarse) {
+  .modal-clear-filters:active {
+    background: rgba(208,224,144,.10);
+    transform: none;                         /* viktigt på touch */
+  }
+}
+
+/* Tillgänglighet: respektera minskad rörelse */
+@media (prefers-reduced-motion: reduce) {
+  .chip,
+  .show-all-filters-btn,
+  .modal__cta,
+  .modal-clear-filters {
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+
