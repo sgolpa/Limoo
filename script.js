@@ -137,7 +137,7 @@ async function loadChips(){
     });
   });
 
-  const MAX_CHIPS = 19;
+  const MAX_CHIPS = 18;
   const tags = Array.from(freq.entries())
     .sort((a,b)=> b[1]-a[1] || displayMap.get(a[0]).localeCompare(displayMap.get(b[0]),"sv",{sensitivity:"base"}))
     .slice(0,MAX_CHIPS)
@@ -327,4 +327,8 @@ document.addEventListener("keydown",(e)=>{ if(e.key==="Escape" && modal && modal
 (async()=>{
   await Promise.all([loadRestaurants(), loadChips(), loadTaxonomy()]);
   applyFilters();
+
+  
 })();
+
+

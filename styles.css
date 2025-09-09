@@ -29,6 +29,16 @@ body {
   color: var(--text);
 }
 
+a,
+button,
+.chip,
+.show-all-filters-btn,
+.clear-filters,
+.modal__cta,
+.modal-clear-filters {
+  -webkit-tap-highlight-color: transparent;
+}
+
 /* ================= Header ================= */
 .header {
   display: flex;
@@ -235,7 +245,8 @@ body {
 }
 
 /* Hover: ändra bara bakgrunden – inte padding/size */
-.clear-filters:hover {
+.clear-filters:hover,
+.modal-clear-filters:hover {
   background: rgba(208,224,144,.10);   /* ← identisk pill-hover */
   text-decoration: none;
 }
@@ -346,17 +357,6 @@ body {
   .restaurant-list::before,
   .restaurant-item + .restaurant-item::before {
     width: 100dvw;
-  }
-}
-
-@media (max-width: 480px) {
-  .restaurant-title {
-    font-size: 28px;
-    line-height: 36px;
-  }
-
-  .restaurant-maps {
-    justify-content: flex-start;
   }
 }
 
@@ -523,122 +523,136 @@ body.modal-open {
   outline-offset: 2px;
 }
 
-/* Fullskärm på mobil */
+/* Mobile */
 @media (max-width: 480px) {
-  .modal__dialog {
-    position: fixed;
-    inset: 0;          /* fyll hela viewporten */
-    left: auto; top: auto; 
-    transform: none;   /* ta bort centrerings-translate */
-    width: 100%;
-    height: 100svh;    /* stabil mobilhöjd */
-    max-width: none;
-    border-radius: 0;  /* inga rundade hörn i fullskärm */
-    border: 0;         /* valfritt: ta bort kantlinje */
+
+  .hero-copy {
+    font-size: 40px;
+    line-height: 44px; 
   }
 
-  .modal__content { 
+  /* Modal mobile */
+  .modal__dialog {
+    position: fixed;
+    inset: 0;
+    left: auto; top: auto;
+    transform: none;
+    width: 100%;
+    height: 100svh;
+    max-width: none;
+    border-radius: 0;
+    border: 0;
+  }
+
+  .modal__content {
     flex: 1;
     min-height: 0;
     overflow: auto;
-  overscroll-behavior: contain;
- }
-  .modal__header  { 
-    padding: 24px 24px 0; 
+    overscroll-behavior: contain;
   }
-  .modal__footer  { 
+
+  /* Modal header */
+  .modal__header  {
     position: relative;
-    padding: 24px 24px 24px; }
-}
-
-/* Mobil-justering (små skärmar) */
-@media (max-width: 480px) {
-  /* Stapla i footern: CTA överst, Clear under */
-  .modal__footer {
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-  }
-
-  /* Gör CTA till en “pill”, inte cirkel */
-  .modal__cta {
-    width: 100%;
-    max-width: 320px;   /* valfritt; ta bort om du vill 100% */
-    white-space: nowrap;
-    height: auto;
-    aspect-ratio: auto;
-  }
-
-  /* Clear under CTA */
-  .modal-clear-filters {
-    margin: 0;
-  }
-
-  /* (valfritt) Headern: håll krysset i hörnet på små skärmar */
-  .modal__header { position: relative; justify-content: center; }
-  .modal__close  { position: absolute; top: 16px; right: 16px; }
-}
-
-@media (max-width: 480px) {
-  .modal__header {
-    position: relative;
-    justify-content: center;   /* centrera titeln */
+    justify-content: center;
     align-items: flex-start;
     padding: 24px 24px 0;
+  }
+  .modal__title {
+    font-size: 32px;
+    line-height: 38px;
+    padding: 0 56px 16px; /* plats för krysset */
   }
   .modal__close {
     position: absolute;
     top: 16px;
     right: 16px;
-    padding: 12px;             /* bättre tap-yta */
+    padding: 12px;
   }
-   .modal__title {
-    font-size: 32px;   /* t.ex. 32–36 funkar bra */
-    line-height: 38px; /* håll ~1.15–1.2 */
-    padding: 0 56px 16px; /* lämna plats för krysset, om du använder det */
-  }
-}
-/* Undvik överlapp i mellanlägen (smal desktop/tablet) */
-@media (max-width: 900px) and (min-width: 481px) {
-  .modal__title {
-    padding-right: 56px; /* ~ 24px ikon + 2×16px luft */
-  }
-}
 
-/* Hover om NÅGOT pekdon kan hovra (mus/trackpad på desktop/hybrid) */
-@media (any-hover: hover) {
-  .modal-clear-filters:hover,
-  .clear-filters:hover {
-    background: rgba(208,224,144,.10);
-    text-decoration: none;
+  /* Modal footer */
+  .modal__footer {
+    position: relative;
+    padding: 24px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: nowrap;
   }
-}
-
-/* Touch: fortfarande ingen hover (endast klick-feedback) */
-@media (hover: none) and (pointer: coarse) {
-  .modal-clear-filters:hover,
-  .clear-filters:hover {
-    background: transparent;
+  .modal__cta {
+    padding: 12px 16px;
+    font-size: 14px;
+    line-height: 20px;
+    min-height: 44px;
+    width: auto;
+    max-width: none;
+    white-space: nowrap;
+    margin-left: auto;
   }
-}
-
-/* Mobil: behåll utan skalning (redan satt) */
-@media (hover: none) and (pointer: coarse) {
-  .modal-clear-filters:active {
-    background: rgba(208,224,144,.10);
-    transform: none;                         /* viktigt på touch */
+  .modal-clear-filters {
+    padding: 12px 14px;
+    font-size: 14px;
+    line-height: 20px;
+    min-height: 44px;
+    width: auto;
+    max-width: none;
+    white-space: nowrap;
   }
-}
 
-/* Tillgänglighet: respektera minskad rörelse */
-@media (prefers-reduced-motion: reduce) {
+  /* Modal chip cloud  */
+  .modal__chips {
+    gap: 8px;
+    margin-top: 8px;
+  }
+
+  /* Chips */
   .chip,
   .show-all-filters-btn,
-  .modal__cta,
-  .modal-clear-filters {
-    transition: none !important;
-    transform: none !important;
+  .clear-filters {
+    min-width: 72px;
+    padding: 12px 16px;
+    font-size: 16px;
+    line-height: 24px;
   }
+
+  .chip.is-active { 
+gap: 8px;
+}
+ 
+ .chip .tick { 
+  width: 24px; 
+  height: 24px; 
 }
 
+  .chip-cloud { gap: 8px; }
 
+ /* List */
+  .restaurant-title {
+    gap: 4px;
+    font-size: 40px;
+    line-height: 48px;
+    padding: 0;
+  }
+
+  .restaurant-title svg,
+  .restaurant-title img {
+    width: 38px; height: 38px;
+  }
+
+  .restaurant-tag {
+    font-size: 12px;
+    line-height: 16px;
+    padding: 8px 14px;
+  }
+  .restaurant-tags {
+    margin-top: 12px;
+}
+
+  /* (om du behöver den här fortfarande) */
+  .restaurant-maps {
+    justify-content: flex-start;
+  }
+
+}
