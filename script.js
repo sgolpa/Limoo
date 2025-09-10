@@ -4,7 +4,7 @@
   // ====== Feature flags ======
   const USE_WEIGHTED_OR = true;
   const USE_TAXONOMY = true;              // för att få "group" per tag
-  const COUNT_ZERO_SCORE_RESULTS = true;  // visa alltid alla, 0p nederst
+  const COUNT_ZERO_SCORE_RESULTS = false;  // visa alltid alla, 0p nederst
   const CROSS_GROUP_BONUS = 0.0;          // t.ex. 0.15 = +15% per extra träffad grupp (0 för av)
 
   // ====== Config / Constants ======
