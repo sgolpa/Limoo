@@ -16,27 +16,44 @@
   --tick-check-active: var(--al-white);
 }
 
-/* ================= Base ================= */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+/* ================= Utilities ================= */
+.sr-only {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0);
+  white-space: nowrap; border: 0;
 }
+
+/* Minska rörelse om användaren bett om det */
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
+
+/* ================= Base ================= */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body { height: 100%; }
 
 body {
   font-family: 'Lexend Exa', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   background: var(--bg);
   color: var(--text);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 
-a,
-button,
-.chip,
-.show-all-filters-btn,
-.clear-filters,
-.modal__cta,
-.modal-clear-filters {
+a, button, .chip, .show-all-filters-btn, .clear-filters, .modal__cta, .modal-clear-filters {
   -webkit-tap-highlight-color: transparent;
+}
+
+button { font: inherit; color: inherit; }
+
+/* Focus states for keyboard users */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--lime-light);
+  outline-offset: 2px;
 }
 
 /* ================= Header ================= */
@@ -47,11 +64,7 @@ button,
   padding: 40px 16px 16px;
 }
 
-.logo svg {
-  width: 120px;
-  height: 22px;
-  display: block;
-}
+.logo svg { width: 120px; height: 22px; display: block; }
 
 /* ================= Hero ================= */
 .hero {
@@ -93,49 +106,23 @@ button,
   transition: background .2s ease, transform .05s ease;
 }
 
-.chip:active {
-  transform: scale(.98);
-}
-
-.chip:hover {
-  background: var(--lime-medium);  
-}
-
-.chip.is-active:hover {
-  background: #A2C23D;     
-}
+.chip:hover { background: var(--lime-medium); }
+.chip:active { transform: scale(.98); }
+.chip:focus-visible { outline-color: var(--lime-dark); }
 
 .chip .tick {
   display: none;
-  width: 24px;
-  height: 24px;
+  width: 24px; height: 24px;
   flex-shrink: 0;
 }
+.chip .tick rect { fill: var(--tick-circle); }
+.chip .tick path { fill: var(--tick-check); }
 
-.chip .tick rect {
-  fill: var(--tick-circle);
-}
-
-.chip .tick path {
-  fill: var(--tick-check);
-}
-
-.chip.is-active {
-  background: var(--lime-medium);
-  gap: 6px;
-}
-
-.chip.is-active .tick {
-  display: inline-block;
-}
-
-.chip.is-active .tick rect {
-  fill: var(--tick-circle-active);
-}
-
-.chip.is-active .tick path {
-  fill: var(--tick-check-active);
-}
+.chip.is-active { background: var(--lime-medium); gap: 6px; }
+.chip.is-active:hover { background: #A2C23D; }
+.chip.is-active .tick { display: inline-block; }
+.chip.is-active .tick rect { fill: var(--tick-circle-active); }
+.chip.is-active .tick path { fill: var(--tick-check-active); }
 
 /* ================= Chip cloud ================= */
 .chip-cloud {
@@ -148,8 +135,7 @@ button,
   margin: 60px auto 80px;
 }
 
-.chip,
-.show-all-filters-btn {
+.chip, .show-all-filters-btn {
   flex: 0 0 auto;           /* varje chip/knapp behåller sin storlek */
   white-space: nowrap;      /* ingen intern radbrytning */
 }
@@ -157,7 +143,7 @@ button,
 /* ================= Show all filters (outlined chip) ================= */
 .show-all-filters-btn {
   display: inline-flex;
-  justify-content: center;   /* <-- ändra från flex-start till center */
+  justify-content: center;
   align-items: center;
   padding: 16px 18px;
   border-radius: 999px;
@@ -180,19 +166,8 @@ button,
   cursor: pointer;
   transition: background .2s ease, transform .05s ease, border-color .2s ease;
 }
-
-.show-all-filters-btn:hover {
-  background: rgba(208, 224, 144, 0.10);
-}
-
-.show-all-filters-btn:active {
-  transform: scale(.98);
-}
-
-.show-all-filters-btn:focus-visible {
-  outline: 2px solid var(--lime-light);
-  outline-offset: 2px;
-}
+.show-all-filters-btn:hover { background: rgba(208, 224, 144, 0.10); }
+.show-all-filters-btn:active { transform: scale(.98); }
 
 /* ================= List header ================= */
 .restaurant-header {
@@ -236,82 +211,18 @@ button,
   white-space: nowrap;
   transition: background .2s ease, color .2s ease;
 }
-
-/* När den ska synas: använd inline-flex så storleken är stabil */
 .clear-filters.is-visible {
   display: inline-flex;
   align-items: center;
   justify-content: center;
 }
-
-/* Hover: ändra bara bakgrunden – inte padding/size */
 .clear-filters:hover,
 .modal-clear-filters:hover {
-  background: rgba(208,224,144,.10);   /* ← identisk pill-hover */
+  background: rgba(208,224,144,.10);
   text-decoration: none;
 }
 
 /* ================= Restaurant list ================= */
-.restaurant-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  max-width: 960px;
-  width: calc(100% - 32px);
-  margin: 0 auto 80px;
-}
-
-.restaurant-item {
-  display: flex;
-  flex-direction: column;  /* stapla titel + ev. annat */
-  align-items: center;     /* centrera horisontellt */
-  padding: 24px 0;
-}
-
-.restaurant-title {
-  display: inline-flex;       /* behåll för ikon + text i rad */
-  justify-content: center;    /* centrera innehållet i länken */
-  align-items: center;
-  gap: 8px;
-  color: var(--lime-light);
-  font-family: "Instrument Serif", serif;
-  font-size: 44px;
-  font-weight: 400;
-  line-height: 52px;
-  text-decoration: none;
-  text-align: center;         /* centrera text om den bryter rad */
-  width: 100%;                /* gör länken lika bred som container */
-}
-
-.restaurant-title:hover {
-  color: #CEF859;
-}
-
-.restaurant-meta-line {
-  display: none;
-}
-
-/* ================= Restaurant tags (under titeln) ================= */
-.restaurant-tags {
-  margin-top: 24px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;   /* centrera under titeln */
-  gap: 8px;
-}
-
-.restaurant-tag {
-  background: #345026;
-  color: var(--lime-medium);
-  font-family: Lexend Exa, sans-serif;
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 24px;
-  padding: 8px 14px;       /* <--- matchar din box */
-  border-radius: 999px;    /* rund pillform */
-  white-space: nowrap;
-}
-
 .restaurant-list {
   position: relative;
   display: flex;
@@ -322,23 +233,22 @@ button,
   margin: 0 auto 80px;
 }
 
-/* Alltid en top-border (bleed) på listan */
 .restaurant-list::before {
   content: "";
   position: absolute;
   top: 0;
-  left: 50%;                  /* <-- var 50vw */
+  left: 50%;
   transform: translateX(-50%);
   width: 100vw;               /* full bleed */
   border-top: 1px solid var(--divider);
 }
 
-/* Divider (bleed) mellan items */
 .restaurant-item {
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-align: center;
   padding: 24px 0;
 }
 
@@ -346,24 +256,55 @@ button,
   content: "";
   position: absolute;
   top: 0;
-  left: 50%;                  /* <-- var 50vw */
+  left: 50%;
   transform: translateX(-50%);
   width: 100vw;
   border-top: 1px solid var(--divider);
 }
 
-/* (valfritt) undvik horizontell scroll på vissa mobiler */
 @supports (width: 100dvw) {
   .restaurant-list::before,
-  .restaurant-item + .restaurant-item::before {
-    width: 100dvw;
-  }
+  .restaurant-item + .restaurant-item::before { width: 100dvw; }
+}
+
+.restaurant-title {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  color: var(--lime-light);
+  font-family: "Instrument Serif", serif;
+  font-size: 44px;
+  font-weight: 400;
+  line-height: 52px;
+  text-decoration: none;
+}
+.restaurant-title:hover { color: #CEF859; }
+.restaurant-title:focus-visible { outline-color: #CEF859; }
+
+.restaurant-meta-line { display: none; }
+
+.restaurant-tags {
+  margin-top: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+.restaurant-tag {
+  background: #345026;
+  color: var(--lime-medium);
+  font-family: Lexend Exa, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  white-space: nowrap;
 }
 
 /* ================= Modal ================= */
-body.modal-open {
-  overflow: hidden;
-}
+body.modal-open { overflow: hidden; }
 
 .modal {
   position: fixed;
@@ -371,10 +312,7 @@ body.modal-open {
   display: none;
   z-index: 1000;
 }
-
-.modal.is-open {
-  display: block;
-}
+.modal.is-open { display: block; }
 
 .modal__overlay {
   position: absolute;
@@ -384,8 +322,7 @@ body.modal-open {
 
 .modal__dialog {
   position: absolute;
-  left: 50%;
-  top: 50%;
+  left: 50%; top: 50%;
   transform: translate(-50%, -50%);
   width: calc(100% - 32px);
   max-width: 960px;
@@ -415,6 +352,7 @@ body.modal-open {
   font-weight: 400;
   line-height: 56px;
   padding-bottom: 20px;
+  padding: 0 56px 20px;
   margin: auto;
 }
 
@@ -427,8 +365,7 @@ body.modal-open {
   cursor: pointer;
   padding: 8px;
   position: absolute;
-  top: 40px;   /* samma som headerns topp-padding */
-  right: 40px; /* samma som headerns höger-padding */
+  top: 40px; right: 40px;
   z-index: 2;
 }
 
@@ -437,9 +374,7 @@ body.modal-open {
   padding: 24px 40px 40px;
 }
 
-.modal__section + .modal__section {
-  margin-top: 56px;
-}
+.modal__section + .modal__section { margin-top: 56px; }
 
 .modal__section-title {
   color: var(--lime-light);
@@ -461,84 +396,68 @@ body.modal-open {
 .modal__footer {
   position: sticky;
   bottom: 0;
-  z-index: 3;                       /* <-- ny: ligger över chipsen */
+  z-index: 3;
   background: var(--lime-dark);
   padding: 20px 40px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 
-  contain: paint;                   /* <-- ny: isolera paint */
-  backface-visibility: hidden;      /* <-- ny: iOS-jank fix */
-  transform: translateZ(0);         /* <-- ny: egen komposit-layer */
+  contain: paint;                /* isolera paint */
+  backface-visibility: hidden;   /* iOS-jank fix */
+  transform: translateZ(0);      /* egen komposit-layer */
 }
 
 .modal-clear-filters {
-  display: inline-flex;              /* samma som på hover */
+  display: inline-flex;
   justify-content: center;
   align-items: center;
-  padding: 16px 18px;               /* samma som på hover → ingen höjdändring */
+  padding: 16px 18px;
   border-radius: 999px;
   color: var(--lime-light);
   text-decoration: none;
-  transition: background .2s ease, color .2s ease; /* inga padding-transitions */
+  transition: background .2s ease, color .2s ease;
 }
 
-/* Modal CTA – outlined som startsidan */
 .modal__cta {
   display: inline-flex;
   justify-content: center;
   align-items: center;
 
-  padding: 16px 18px;           /* samma padding som startsidan */
+  padding: 16px 18px;
   min-width: 89px;
   border-radius: 999px;
 
   -webkit-appearance: none;
   appearance: none;
-  background: transparent;      /* ⬅️ viktig: ingen fill */
+  background: transparent;
   box-shadow: none;
   border: 1px solid var(--lime-light);
 
   font-family: 'Lexend Exa', sans-serif;
   font-size: 16px;
-  font-weight: 700;             /* matchar startsidan */
+  font-weight: 700;
   line-height: 24px;
 
   color: var(--lime-light);
   cursor: pointer;
   transition: background .2s ease, transform .05s ease, border-color .2s ease;
 }
+.modal__cta:hover { background: rgba(208, 224, 144, 0.10); }
+.modal__cta:active { transform: scale(.98); }
 
-.modal__cta:hover {
-  background: rgba(208, 224, 144, 0.10);
-}
-
-.modal__cta:active {
-  transform: scale(.98);
-}
-
-.modal__cta:focus-visible {
-  outline: 2px solid var(--lime-light);
-  outline-offset: 2px;
-}
-
-/* Mobile */
+/* ================= Mobile ================= */
 @media (max-width: 480px) {
+  .hero { margin-top: 24px; }
+  .hero-copy { font-size: 40px; line-height: 44px; }
 
-  .hero-copy {
-    font-size: 40px;
-    line-height: 44px; 
-  }
-
-  /* Modal mobile */
   .modal__dialog {
     position: fixed;
     inset: 0;
     left: auto; top: auto;
     transform: none;
     width: 100%;
-    height: 100svh;
+    height: 100%;
     max-width: none;
     border-radius: 0;
     border: 0;
@@ -551,7 +470,6 @@ body.modal-open {
     overscroll-behavior: contain;
   }
 
-  /* Modal header */
   .modal__header  {
     position: relative;
     justify-content: center;
@@ -565,12 +483,10 @@ body.modal-open {
   }
   .modal__close {
     position: absolute;
-    top: 16px;
-    right: 16px;
+    top: 16px; right: 16px;
     padding: 12px;
   }
 
-  /* Modal footer */
   .modal__footer {
     position: relative;
     padding: 24px;
@@ -581,13 +497,13 @@ body.modal-open {
     gap: 12px;
     flex-wrap: nowrap;
   }
+
   .modal__cta {
     padding: 12px 16px;
     font-size: 14px;
     line-height: 20px;
     min-height: 44px;
-    width: auto;
-    max-width: none;
+    width: auto; max-width: none;
     white-space: nowrap;
     margin-left: auto;
   }
@@ -596,63 +512,37 @@ body.modal-open {
     font-size: 14px;
     line-height: 20px;
     min-height: 44px;
-    width: auto;
-    max-width: none;
+    width: auto; max-width: none;
     white-space: nowrap;
   }
 
-  /* Modal chip cloud  */
-  .modal__chips {
-    gap: 8px;
-    margin-top: 8px;
-  }
+  .modal__chips { gap: 8px; margin-top: 8px; }
 
-  /* Chips */
-  .chip,
-  .show-all-filters-btn,
-  .clear-filters {
+  .chip, .show-all-filters-btn, .clear-filters {
     min-width: 72px;
     padding: 12px 16px;
     font-size: 16px;
     line-height: 24px;
   }
-
-  .chip.is-active { 
-gap: 8px;
-}
- 
- .chip .tick { 
-  width: 24px; 
-  height: 24px; 
-}
-
+  .chip.is-active { gap: 8px; }
+  .chip .tick { width: 24px; height: 24px; }
   .chip-cloud { gap: 8px; }
 
- /* List */
   .restaurant-title {
     gap: 4px;
     font-size: 40px;
     line-height: 48px;
     padding: 0;
   }
-
-  .restaurant-title svg,
-  .restaurant-title img {
-    width: 38px; height: 38px;
-  }
+  .restaurant-title svg, .restaurant-title img { width: 38px; height: 38px; }
 
   .restaurant-tag {
     font-size: 12px;
     line-height: 16px;
     padding: 8px 14px;
   }
-  .restaurant-tags {
-    margin-top: 12px;
-}
+  .restaurant-tags { margin-top: 12px; }
 
   /* (om du behöver den här fortfarande) */
-  .restaurant-maps {
-    justify-content: flex-start;
-  }
-
+  .restaurant-maps { justify-content: flex-start; }
 }
