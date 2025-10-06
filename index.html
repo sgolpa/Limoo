@@ -4,83 +4,71 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Limoo</title>
-  <meta name="description" content="Find the perfect spot by taste and mood. Curated restaurants, bars and cafés in Stockholm." />
-  <link rel="stylesheet" href="styles.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Lexend+Exa:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Lexend+Exa:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
-  <header class="header" role="banner">
-    <div class="logo" aria-label="Limoo">
-      <svg width="91" height="16" viewBox="0 0 91 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-        <path d="M58.7236 0.200012C65.0634 0.200012 69.1033 3.55981 69.1035 7.79962C69.1035 12.0196 65.0636 15.4002 58.7236 15.4002C52.3838 15.4001 48.3438 12.0195 48.3438 7.79962C48.344 3.55989 52.384 0.20014 58.7236 0.200012ZM79.8965 0.200012C86.2363 0.200012 90.2761 3.55981 90.2764 7.79962C90.2764 12.0196 86.2365 15.4002 79.8965 15.4002C73.5566 15.4002 69.5166 12.0196 69.5166 7.79962C69.5168 3.55984 73.5568 0.200066 79.8965 0.200012ZM5.56836 11.2195H15.3281V14.9998H0.568359V0.600403H5.56836V11.2195ZM21.7617 14.9998H16.7217V0.600403H21.7617V14.9998ZM35.1338 7.25958H35.9736L40.4932 0.600403H47.1934V14.9998H42.334L42.4531 5.8797H42.0332L37.4336 12.2H33.4131L28.7139 5.8797H28.2539L28.373 14.9998H23.7539V0.600403H30.5137L35.1338 7.25958ZM58.7236 3.91974C55.764 3.91987 53.884 5.49993 53.8838 7.79962C53.8838 10.0395 55.7638 11.6803 58.7236 11.6805C61.6836 11.6805 63.5645 10.0596 63.5645 7.79962C63.5642 5.49983 61.6835 3.91974 58.7236 3.91974ZM79.8965 3.91974C76.9367 3.91979 75.0569 5.49987 75.0566 7.79962C75.0566 10.0396 76.9366 11.6804 79.8965 11.6805C82.8565 11.6805 84.7363 10.0596 84.7363 7.79962C84.7361 5.49983 82.8563 3.91974 79.8965 3.91974Z" fill="#469D1A"/>
-      </svg>
+  <header class="site-header">
+    <div class="brand">
+      <img src="./assets/limoo.svg" alt="Limoo" class="brand__logo" />
     </div>
   </header>
 
-  <main id="main" role="main">
-    <section class="hero" aria-labelledby="hero-title">
-      <h1 id="hero-title" class="sr-only">Limoo</h1>
-      <p class="hero-copy">
+  <main class="container">
+    <section class="intro">
+      <p class="intro__text">
         Find the perfect spot for the moment. Choose by taste and mood, and we’ll guide you to curated restaurants, bars and cafés in Stockholm that fit right now.
       </p>
     </section>
 
-    <!-- Chip cloud (populated by JS) -->
-    <section class="chip-cloud" id="chipCloud" aria-label="Popular filters"></section>
+    <!-- Quick filters (chips) -->
+<section class="chip-cloud" aria-label="Quick filters">
+  <!-- Chips kommer senare via JS -->
+  <button class="btn" type="button">Show all filters</button>
+</section>
 
-    <!-- Clear filters under chip cloud -->
-    <div class="clear-filters-wrapper">
-      <a href="#" class="clear-filters" aria-label="Clear all filters">Clear filters</a>
-    </div>
+<!-- Cards -->
+<section class="card-list" aria-live="polite">
+  <!-- Cards renderas via app.js -->
+</section>
 
-    <!-- Results list -->
-    <section class="restaurant-list" id="restaurantList" aria-label="Results"></section>
+    <!-- (Plats för chip-cloud och cards senare) -->
   </main>
 
-  <!-- Modal: All filters -->
-  <div class="modal" id="filtersModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="filtersTitle">
-    <div class="modal__overlay" data-close="overlay" aria-hidden="true"></div>
-    <div class="modal__dialog" role="document" aria-labelledby="filtersTitle">
-      <header class="modal__header">
-        <h2 id="filtersTitle" class="modal__title">What are you in the mood for?</h2>
-        <button class="modal__close" aria-label="Close filters" data-close="button">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
-            <path d="M19.2929 3.29289C19.6834 2.90237 20.3164 2.90237 20.707 3.29289C21.0974 3.68342 21.0974 4.31646 20.707 4.70696L13.414 11.9999L20.707 19.2929C21.0974 19.6834 21.0974 20.3165 20.707 20.707C20.3165 21.0974 19.6834 21.0974 19.2929 20.707L11.9999 13.414L4.70696 20.707C4.31646 21.0974 3.68342 21.0974 3.29289 20.707C2.90237 20.3164 2.90237 19.6834 3.29289 19.2929L10.5859 11.9999L3.29289 4.70696C2.90237 4.31643 2.90237 3.68342 3.29289 3.29289C3.68342 2.90237 4.31643 2.90237 4.70696 3.29289L11.9999 10.5859L19.2929 3.29289Z" fill="#6E8D5E"/>
-          </svg>
-        </button>
-      </header>
+  <dialog id="filterDialog">
+  <div class="dialog__content">
+    <header class="dialog__header">
+      <h2 class="dialog__title">What are you in the mood for?</h2>
+      <button class="dialog__close" aria-label="Close filters">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M19.2929 3.29297C19.6834 2.90245 20.3164 2.90245 20.707 3.29297C21.0974 3.6835 21.0974 4.31654 20.707 4.70703L13.414 12L20.707 19.293C21.0974 19.6835 21.0974 20.3165 20.707 20.707C20.3165 21.0975 19.6834 21.0975 19.2929 20.707L11.9999 13.4141L4.70696 20.707C4.31646 21.0975 3.68342 21.0975 3.29289 20.707C2.90237 20.3165 2.90237 19.6835 3.29289 19.293L10.5859 12L3.29289 4.70703C2.90237 4.31651 2.90237 3.68349 3.29289 3.29297C3.68342 2.90245 4.31643 2.90245 4.70696 3.29297L11.9999 10.5859L19.2929 3.29297Z" fill="#6E8D5E"/>        </svg>
+      </button>
+    </header>
 
-      <div class="modal__content" id="modalContent">
-        <section class="modal__section">
-          <h3 class="modal__section-title">What are you craving?</h3>
-          <div class="modal__chips" id="modalGroup1"></div>
-        </section>
-        <section class="modal__section">
-          <h3 class="modal__section-title">What vibe or occasion are you after?</h3>
-          <div class="modal__chips" id="modalGroup2"></div>
-        </section>
-        <section class="modal__section">
-          <h3 class="modal__section-title">Any drinks in mind?</h3>
-          <div class="modal__chips" id="modalGroup3"></div>
-        </section>
-        <section class="modal__section">
-          <h3 class="modal__section-title">Something extra?</h3>
-          <div class="modal__chips" id="modalGroup4"></div>
-        </section>
+    <section class="dialog__section">
+      <!-- En grupp – vi fyller chippar senare -->
+      <div class="dialog__group">
+        <h3 class="dialog__group-title">Flavor</h3>
+        <div class="dialog__chips">
+          <!-- chips kommer via JS -->
+        </div>
       </div>
+      <!-- Fler grupper (Vibe/Drinks/Extras) renderas senare -->
+    </section>
 
-      <footer class="modal__footer">
-        <a href="#" class="modal-clear-filters" aria-label="Clear all filters in modal">Clear filters</a>
-        <button class="modal__cta" id="modalCTA" type="button">Show all spots</button>
-      </footer>
-    </div>
+    <footer class="dialog__footer">
+      <button class="btn btn--text" type="button">Clear filters</button>
+      <button class="btn" type="button">Show all spots</button>
+    </footer>
   </div>
+</dialog>
 
-  <noscript>
-    This site needs JavaScript enabled to load the curated list and filters.
-  </noscript>
-
-  <script src="script.js" defer></script>
+  <script>
+    // Liten demo för att kunna se dialog-layouten (valfritt)
+    document.addEventListener('keydown', (e) => { if (e.key === 'f') document.getElementById('filterDialog').showModal(); });
+  </script>
+  <script type="module" src="./app.js"></script>
 </body>
 </html>
