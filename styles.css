@@ -207,12 +207,15 @@ body{
 }
 
 .card__title{
+  display: inline-flex;
+  align-items: center;
   font-family: "Instrument Serif", Georgia, serif;
   font-weight: 400;
   font-size: 40px;
   line-height: 48px;
   color: var(--albedo);
   text-decoration: none;
+  gap: var(--space-sm);
   margin-right: auto;
 }
 
