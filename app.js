@@ -146,22 +146,20 @@ document.addEventListener('DOMContentLoaded', async () => {
     card.className = 'card';
 
   const header = document.createElement('header');
-header.className = 'card__header';
+    header.className = 'card__header';
 
-const titleLink = document.createElement('a');
-titleLink.className = 'card__title';
-titleLink.href = mapsUrl;
-titleLink.target = '_blank';
-titleLink.rel = 'noopener';
+  const titleLink = document.createElement('a');
+    titleLink.className = 'card__title';
+    titleLink.href = mapsUrl;
+    titleLink.target = '_blank';
+    titleLink.rel = 'noopener';
 
-// Gör så att ikonen ligger inuti länken, före texten
-const icon = makeCardIcon();
-titleLink.appendChild(icon);
-titleLink.appendChild(document.createTextNode(name));
+  const icon = makeCardIcon();
+    titleLink.appendChild(icon);
+    titleLink.appendChild(document.createTextNode(name));
 
-header.appendChild(titleLink);
+  header.appendChild(titleLink);
 
-// Lägg till eventuell label efteråt
 if (labels.length > 0) {
   header.appendChild(makeLabel(labels[0]));
 }
@@ -382,7 +380,7 @@ if (labels.length > 0) {
     clearFiltersBtn.type = 'button';
     clearFiltersBtn.textContent = 'Clear filters';
     clearFiltersBtn.style.display = 'none';
-    clearFiltersBtn.style.margin = 'var(--space-lg) auto 0';
+    clearFiltersBtn.style.margin = 'var(--space-lg) auto var(--space-xl)';
     clearFiltersBtn.addEventListener('click', clearAllFilters);
     chipCloud.insertAdjacentElement('afterend', clearFiltersBtn);
   }

@@ -215,7 +215,7 @@ body{
   line-height: 48px;
   color: var(--albedo);
   text-decoration: none;
-  gap: var(--space-sm);
+  gap: var(--space-xs);
   margin-right: auto;
 }
 
@@ -447,12 +447,27 @@ dialog::backdrop {
   gap: var(--space-md);
 }
 
-.dialog__footer{
+/*.dialog__footer{
   position: sticky;
   bottom: 0;
   z-index: 2;
   background: var(--lime-peel);
   padding: var(--space-2xl) var(--space-lg);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-md);
+}*/
+/*ny*/
+.dialog__footer {
+  position: fixed;
+  bottom: env(safe-area-inset-bottom);
+  left: 0;
+  right: 0;
+  z-index: 3;
+  background: var(--lime-peel);
+  padding: var(--space-2xl) var(--space-lg);
+  padding-bottom: calc(var(--space-2xl) + env(safe-area-inset-bottom));
   display: flex;
   justify-content: space-between;
   align-items: center;
