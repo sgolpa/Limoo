@@ -367,7 +367,7 @@ dialog::backdrop {
 
 @media (max-width: 1023px) {
   .dialog__content {
-    padding-bottom: calc(120px + env(safe-area-inset-bottom));
+    padding-bottom: calc(140px + env(safe-area-inset-bottom));
   }
 
 .dialog__content::-webkit-scrollbar{
