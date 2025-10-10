@@ -145,7 +145,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const card = document.createElement('article');
     card.className = 'card';
 
-    const header = document.createElement('header');
+  const header = document.createElement('header');
     header.className = 'card__header';
     header.appendChild(makeCardIcon());
 
@@ -157,9 +157,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     titleLink.textContent = name;
     header.appendChild(titleLink);
 
-    if (labels.length > 0) {
-      header.appendChild(makeLabel(labels[0]));
-    }
+if (labels.length > 0) {
+  header.appendChild(makeLabel(labels[0]));
+}
 
     card.appendChild(header);
 
