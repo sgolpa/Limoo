@@ -146,17 +146,22 @@ document.addEventListener('DOMContentLoaded', async () => {
     card.className = 'card';
 
   const header = document.createElement('header');
-    header.className = 'card__header';
-    header.appendChild(makeCardIcon());
+header.className = 'card__header';
 
-    const titleLink = document.createElement('a');
-    titleLink.className = 'card__title';
-    titleLink.href = mapsUrl;
-    titleLink.target = '_blank';
-    titleLink.rel = 'noopener';
-    titleLink.textContent = name;
-    header.appendChild(titleLink);
+const titleLink = document.createElement('a');
+titleLink.className = 'card__title';
+titleLink.href = mapsUrl;
+titleLink.target = '_blank';
+titleLink.rel = 'noopener';
 
+// Gör så att ikonen ligger inuti länken, före texten
+const icon = makeCardIcon();
+titleLink.appendChild(icon);
+titleLink.appendChild(document.createTextNode(name));
+
+header.appendChild(titleLink);
+
+// Lägg till eventuell label efteråt
 if (labels.length > 0) {
   header.appendChild(makeLabel(labels[0]));
 }
