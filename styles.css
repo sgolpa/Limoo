@@ -75,7 +75,7 @@ body{
   display: grid;
   place-items: center;
   margin-top: clamp(0px, 4vh, var(--space-3xl)); /*intro äger avstånd toppen till header */
-  margin-bottom: var(--space-3xl); /*intro äger avstånd botten till chipparna */
+  margin-bottom: var(--space-2xl); /*intro äger avstånd botten till chipparna */
 }
 
 .intro__text{
@@ -361,6 +361,8 @@ dialog::backdrop {
   max-height: inherit; 
   overflow: auto;
   scrollbar-width: none;
+  -webkit-overflow-scrolling: touch; /*testar för att footer inte ska lägga sig på content */
+  padding-bottom: calc(120px + env(safe-area-inset-bottom, 0px)); /*testar för att footer inte ska lägga sig på content */
 }
 
 .dialog__content::-webkit-scrollbar{
