@@ -361,8 +361,6 @@ dialog::backdrop {
   max-height: inherit; 
   overflow: auto;
   scrollbar-width: none;
-  -webkit-overflow-scrolling: touch; /*testar för att footer inte ska lägga sig på content */
-  padding-bottom: calc(120px + env(safe-area-inset-bottom, 0px)); /*testar för att footer inte ska lägga sig på content */
 }
 
 .dialog__content::-webkit-scrollbar{
@@ -449,7 +447,7 @@ dialog::backdrop {
   gap: var(--space-md);
 }
 
-/*.dialog__footer{
+.dialog__footer{
   position: sticky;
   bottom: 0;
   z-index: 2;
@@ -459,21 +457,22 @@ dialog::backdrop {
   justify-content: space-between;
   align-items: center;
   gap: var(--space-md);
-}*/
-/*ny*/
-.dialog__footer {
-  position: fixed;
-  bottom: env(safe-area-inset-bottom);
-  left: 0;
-  right: 0;
-  z-index: 3;
-  background: var(--lime-peel);
-  padding: var(--space-2xl) var(--space-lg);
-  padding-bottom: calc(var(--space-2xl) + env(safe-area-inset-bottom));
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: var(--space-md);
+}
+
+/* mobilundatag */
+@media (max-width: 1023px) {
+  .dialog__content {
+    padding-bottom: calc(120px + env(safe-area-inset-bottom));
+  }
+
+  .dialog__footer {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: env(safe-area-inset-bottom);
+    padding-bottom: calc(var(--space-2xl) + env(safe-area-inset-bottom));
+    z-index: 3;
+  }
 }
 
 .dialog__footer .btn,

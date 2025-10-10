@@ -252,6 +252,7 @@ if (labels.length > 0) {
 
   const openFilterDialog = () => {
     if (!filterDialog) return;
+    document.body.style.overflow = 'hidden';
     if (typeof filterDialog.showModal === 'function') {
       filterDialog.showModal();
     } else {
@@ -261,6 +262,7 @@ if (labels.length > 0) {
 
   const closeFilterDialog = () => {
     if (!filterDialog) return;
+    document.body.style.overflow = '';
     if (typeof filterDialog.close === 'function') {
       filterDialog.close();
     } else {
