@@ -474,13 +474,9 @@ dialog::backdrop {
   }
 
   .dialog__footer {
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: env(safe-area-inset-bottom);
+    position: static;
     padding-bottom: calc(var(--space-2xl) + env(safe-area-inset-bottom));
-    z-index: 3;
-  }
+}
 }
 
 .dialog__footer .btn,
