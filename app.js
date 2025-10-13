@@ -141,7 +141,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     return label;
   };
 
-  const makeCard = ({ name, mapsUrl, tags = [], labels = [], matchCount = 0, totalSelected = 0 }) => {
+  const makeCard = ({
+    name,
+    mapsUrl,
+    tags = [],
+    labels = [],
+    matchCount = 0,
+    totalSelected = 0,
+    extraTagCount = 0,
+  }) => {
     const card = document.createElement('article');
     card.className = 'card';
 
@@ -176,19 +184,17 @@ if (labels.length > 0) {
     const tagsWrap = document.createElement('div');
     tagsWrap.className = 'card__tags';
 
-    const visibleTags = tags.slice(0, 3);
-    visibleTags.forEach((tag) => {
+    tags.forEach((tag) => {
       const tagEl = document.createElement('span');
       tagEl.className = 'card__tag';
       tagEl.textContent = formatTagLabel(tag);
       tagsWrap.appendChild(tagEl);
     });
 
-    const extraCount = tags.length - visibleTags.length;
-    if (extraCount > 0) {
+    if (extraTagCount > 0) {
       const countEl = document.createElement('span');
       countEl.className = 'tag--count';
-      countEl.textContent = `+${extraCount}`;
+      countEl.textContent = `+${extraTagCount}`;
       tagsWrap.appendChild(countEl);
     }
 
@@ -200,33 +206,68 @@ if (labels.length > 0) {
     if (!cardList) return;
 
     const showMatches = selectedTags.size > 0;
-    let results;
+    const totalSelected = selectedTags.size;
 
-    if (!showMatches) {
-      results = placesWithIndex.map((place) => ({ place, matchCount: 0 }));
-    } else {
-      results = placesWithIndex
-        .map((place) => {
-          const matchCount = place.tags.reduce(
-            (count, tag) => count + (selectedTags.has(tag) ? 1 : 0),
-            0
-          );
-          return { place, matchCount };
-        })
-        .filter(({ matchCount }) => matchCount > 0)
-        .sort((a, b) => {
-          if (b.matchCount !== a.matchCount) return b.matchCount - a.matchCount;
-          return a.place.order - b.place.order;
+    const selectionOrder = [...selectedTags];
+    const selectionLookup = new Set(selectionOrder);
+    const results = placesWithIndex
+      .map((place) => {
+        const tags = Array.isArray(place.tags) ? place.tags : [];
+        if (!showMatches) {
+          const limitedTags = tags.slice(0, 3);
+          return {
+            place,
+            matchCount: 0,
+            tagsForDisplay: limitedTags,
+            extraTagCount: tags.length - limitedTags.length,
+          };
+        }
+        const matchedBuckets = new Map();
+        const unmatchedTags = [];
+
+        tags.forEach((tag) => {
+          if (selectionLookup.has(tag)) {
+            if (!matchedBuckets.has(tag)) {
+              matchedBuckets.set(tag, []);
+            }
+            matchedBuckets.get(tag).push(tag);
+          } else {
+            unmatchedTags.push(tag);
+          }
         });
-    }
+
+        const matchedTags = [];
+        selectionOrder.forEach((tag) => {
+          const bucket = matchedBuckets.get(tag);
+          if (bucket) {
+            matchedTags.push(...bucket);
+          }
+        });
+
+        const orderedTags = [...matchedTags, ...unmatchedTags];
+        const limitedTags = orderedTags.slice(0, 3);
+        return {
+          place,
+          matchCount: matchedTags.length,
+          tagsForDisplay: limitedTags,
+          extraTagCount: tags.length - limitedTags.length,
+        };
+      })
+      .sort((a, b) => {
+        if (!showMatches) return a.place.order - b.place.order;
+        if (b.matchCount !== a.matchCount) return b.matchCount - a.matchCount;
+        return a.place.order - b.place.order;
+      });
 
     const fragment = document.createDocumentFragment();
-    results.forEach(({ place, matchCount }) => {
+    results.forEach(({ place, matchCount, tagsForDisplay, extraTagCount }) => {
       fragment.appendChild(
         makeCard({
           ...place,
+          tags: tagsForDisplay,
           matchCount: showMatches ? matchCount : 0,
-          totalSelected: showMatches ? selectedTags.size : 0,
+          totalSelected: showMatches ? totalSelected : 0,
+          extraTagCount,
         })
       );
     });

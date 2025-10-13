@@ -21,6 +21,7 @@
 
   --radius: 24px;
   --radius-xl: 999px;
+  --dialog-footer-offset-mobile: 180px;
 }
 
 /* —— Base / typography —— */
@@ -362,12 +363,12 @@ dialog::backdrop {
   overflow: auto;
   scrollbar-width: none;
   overscroll-behavior: contain;
-  padding-bottom: var(--space-2xl);
+  padding-bottom: calc(var(--space-2xl) + env(safe-area-inset-bottom));
 }
 
 @media (max-width: 1023px) {
   .dialog__content {
-    padding-bottom: calc(140px + env(safe-area-inset-bottom));
+    padding-bottom: calc(var(--dialog-footer-offset-mobile) + env(safe-area-inset-bottom));
   }
 
 .dialog__content::-webkit-scrollbar{
@@ -470,7 +471,7 @@ dialog::backdrop {
 /* mobilundatag */
 @media (max-width: 1023px) {
   .dialog__content {
-    padding-bottom: calc(120px + env(safe-area-inset-bottom));
+    padding-bottom: calc(var(--dialog-footer-offset-mobile) + env(safe-area-inset-bottom));
   }
 
   .dialog__footer {
