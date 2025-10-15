@@ -36,6 +36,7 @@ body{
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  padding-bottom: var(--space-3xl);
 }
 
 .serif{ font-family: "Instrument Serif", Georgia, serif;}
@@ -45,18 +46,52 @@ body{
   width: 100%;
   max-width: var(--maxw);
   margin: 0 auto;
-  padding: 0 var(--space-lg);
+  padding: 0 var(--space-lg) var(--space-xl);
+}
+
+.site-footer{
+  display: flex;
+  justify-content: center;
+  padding: var(--space-3xl) var(--space-lg);
+}
+
+.site-footer__link{
+  appearance: none;
+  background: transparent;
+  border: none;
+  font-family: "Lexend Exa", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--lime-flesh);
+  text-decoration: none;
+  cursor: pointer;
+  padding: var(--space-lg) var(--space-xl);  border-radius: var(--radius-xl);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.site-footer__link:hover,
+.site-footer__link:focus-visible{
+  background: rgba(208, 224, 144, 0.08);
 }
 
 @media (min-width: 768px) {
   .container {
-    padding: 0 var(--space-2xl);
+    padding: 0 var(--space-2xl) var(--space-xl);
+  }
+
+  .site-footer {
+    padding: var(--space-3xl) var(--space-2xl);
   }
 }
 
 @media (min-width: 1024px) {
   .container {
-    padding: 0 var(--space-3xl);
+    padding: 0 var(--space-3xl) var(--space-xl);
+  }
+
+  .site-footer {
+    padding: var(--space-3xl) var(--space-3xl);
   }
 }
 
@@ -130,7 +165,7 @@ body{
   flex-wrap: wrap;
   justify-content: center;
   gap: var(--space-md);
-  margin-bottom: var(--space-2xl);
+  margin-bottom: 0;
 }
 
 .chip{
@@ -146,6 +181,17 @@ body{
   border-radius: var(--radius-xl);
   padding: var(--space-lg) var(--space-xl);
   cursor: pointer;
+}
+
+.chip-cloud__clear{
+  display: block;
+  margin: var(--space-2xl) auto;
+  padding: var(--space-md) var(--space-lg);
+}
+
+.chip-cloud__clear.is-hidden{
+  visibility: hidden;
+  pointer-events: none;
 }
 
 @media (max-width: 767px) {
@@ -182,7 +228,7 @@ body{
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--space-lg);
-  margin-bottom: var(--space-4xl);
+  margin-bottom: var(--space-2xl);
 }
 
 @media (min-width: 1024px){
@@ -253,6 +299,14 @@ body{
   gap: var(--space-sm);
 }
 
+.card__tags--collapsible{
+  align-items: flex-start;
+}
+
+.card__tags:not(.card__tags--expanded) .card__tag--extra{
+  display: none;
+}
+
 .card__tag{
   font-family: "Lexend Exa", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   font-weight: 400;
@@ -276,9 +330,19 @@ body{
   text-align: center;
   color: var(--lime-flesh);
   background: var(--root-moss);
-  border-radius: 50%;
-  width: 32px;
-  height: 32px;
+  border-radius: var(--radius-xl);
+  padding: var(--space-sm) var(--space-md);
+  min-width: 32px;
+  border: none;
+  appearance: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.tag--count:hover,
+.tag--count:focus-visible{
+  background: var(--lime-flesh);
+  color: var(--lime-peel);
 }
 
 .label{
@@ -438,7 +502,15 @@ dialog::backdrop {
   justify-items: center;
   padding: var(--space-lg);
   display: grid;
-  gap: var(--space-3xl); 
+  gap: var(--space-3xl);
+}
+
+.dialog__section--about{
+  justify-items: start;
+  gap: var(--space-2xl);
+  max-width: 640px;
+  width: 100%;
+  margin: 0 auto;
 }
 
 .dialog__group {
@@ -463,6 +535,16 @@ dialog::backdrop {
   flex-wrap: wrap;
   justify-content: center;
   gap: var(--space-md);
+}
+
+.dialog__text{
+  margin: 0;
+  font-family: "Instrument Serif", Georgia, serif;
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 36px;
+  color: var(--albedo);
+  text-align: left;
 }
 
 .dialog__footer{

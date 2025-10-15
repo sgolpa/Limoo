@@ -2,11 +2,14 @@ document.addEventListener('DOMContentLoaded', async () => {
   const chipCloud = document.querySelector('.chip-cloud');
   const cardList = document.querySelector('.card-list');
   const filterDialog = document.getElementById('filterDialog');
-  const dialogSection = document.querySelector('.dialog__section');
+  const dialogSection = filterDialog?.querySelector('.dialog__section');
   const dialogCloseBtn = filterDialog?.querySelector('.dialog__close');
   const dialogClearBtn = filterDialog?.querySelector('.dialog__footer .btn--text');
   const dialogShowSpotsBtn = filterDialog?.querySelector('.dialog__footer .btn:last-of-type');
   const root = document.documentElement;
+  const aboutDialog = document.getElementById('aboutDialog');
+  const aboutLink = document.getElementById('aboutLink');
+  const aboutCloseBtn = aboutDialog?.querySelector('.dialog__close');
 
   const updateViewportBottomGap = () => {
     if (!window.visualViewport) {
@@ -158,6 +161,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     return label;
   };
 
+  const MAX_VISIBLE_TAGS = 3;
+
   const makeCard = ({
     name,
     mapsUrl,
@@ -201,18 +206,36 @@ if (labels.length > 0) {
     const tagsWrap = document.createElement('div');
     tagsWrap.className = 'card__tags';
 
-    tags.forEach((tag) => {
+    tags.forEach((tag, index) => {
       const tagEl = document.createElement('span');
       tagEl.className = 'card__tag';
+      if (index >= MAX_VISIBLE_TAGS) {
+        tagEl.classList.add('card__tag--extra');
+      }
       tagEl.textContent = formatTagLabel(tag);
       tagsWrap.appendChild(tagEl);
     });
 
     if (extraTagCount > 0) {
-      const countEl = document.createElement('span');
-      countEl.className = 'tag--count';
-      countEl.textContent = `+${extraTagCount}`;
-      tagsWrap.appendChild(countEl);
+      tagsWrap.classList.add('card__tags--collapsible');
+      const toggleBtn = document.createElement('button');
+      const collapsedLabel = `+${extraTagCount}`;
+      const expandedLabel = 'Hide';
+      toggleBtn.type = 'button';
+      toggleBtn.className = 'tag--count';
+      toggleBtn.textContent = collapsedLabel;
+      toggleBtn.setAttribute('aria-expanded', 'false');
+      toggleBtn.setAttribute('aria-label', `Show ${extraTagCount} more tags`);
+      toggleBtn.addEventListener('click', () => {
+        const expanded = tagsWrap.classList.toggle('card__tags--expanded');
+        toggleBtn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+        toggleBtn.textContent = expanded ? expandedLabel : collapsedLabel;
+        toggleBtn.setAttribute(
+          'aria-label',
+          expanded ? 'Show fewer tags' : `Show ${extraTagCount} more tags`
+        );
+      });
+      tagsWrap.appendChild(toggleBtn);
     }
 
     card.appendChild(tagsWrap);
@@ -231,12 +254,13 @@ if (labels.length > 0) {
       .map((place) => {
         const tags = Array.isArray(place.tags) ? place.tags : [];
         if (!showMatches) {
-          const limitedTags = tags.slice(0, 3);
+          const orderedTags = Array.isArray(tags) ? [...tags] : [];
+          const extraTagCount = Math.max(0, orderedTags.length - MAX_VISIBLE_TAGS);
           return {
             place,
             matchCount: 0,
-            tagsForDisplay: limitedTags,
-            extraTagCount: tags.length - limitedTags.length,
+            tagsForCard: orderedTags,
+            extraTagCount,
           };
         }
         const matchedBuckets = new Map();
@@ -262,12 +286,12 @@ if (labels.length > 0) {
         });
 
         const orderedTags = [...matchedTags, ...unmatchedTags];
-        const limitedTags = orderedTags.slice(0, 3);
+        const extraTagCount = Math.max(0, orderedTags.length - MAX_VISIBLE_TAGS);
         return {
           place,
           matchCount: matchedTags.length,
-          tagsForDisplay: limitedTags,
-          extraTagCount: tags.length - limitedTags.length,
+          tagsForCard: orderedTags,
+          extraTagCount,
         };
       })
       .sort((a, b) => {
@@ -277,11 +301,11 @@ if (labels.length > 0) {
       });
 
     const fragment = document.createDocumentFragment();
-    results.forEach(({ place, matchCount, tagsForDisplay, extraTagCount }) => {
+    results.forEach(({ place, matchCount, tagsForCard, extraTagCount }) => {
       fragment.appendChild(
         makeCard({
           ...place,
-          tags: tagsForDisplay,
+          tags: tagsForCard,
           matchCount: showMatches ? matchCount : 0,
           totalSelected: showMatches ? totalSelected : 0,
           extraTagCount,
@@ -305,27 +329,51 @@ if (labels.length > 0) {
 
   const updateClearFiltersVisibility = () => {
     if (!clearFiltersBtn) return;
-    clearFiltersBtn.style.display = selectedTags.size === 0 ? 'none' : 'block';
+    clearFiltersBtn.classList.toggle('is-hidden', selectedTags.size === 0);
+  };
+
+  const syncBodyScrollLock = () => {
+    const dialogs = [filterDialog, aboutDialog];
+    const anyOpen = dialogs.some((item) => item && item.open);
+    if (!anyOpen) {
+      document.body.style.overflow = '';
+    }
+  };
+
+  const showDialogElement = (dialog) => {
+    if (!dialog) return;
+    document.body.style.overflow = 'hidden';
+    if (typeof dialog.showModal === 'function') {
+      dialog.showModal();
+    } else {
+      dialog.setAttribute('open', 'true');
+    }
+  };
+
+  const hideDialogElement = (dialog) => {
+    if (!dialog) return;
+    if (typeof dialog.close === 'function') {
+      dialog.close();
+    } else {
+      dialog.removeAttribute('open');
+    }
+    syncBodyScrollLock();
   };
 
   const openFilterDialog = () => {
-    if (!filterDialog) return;
-    document.body.style.overflow = 'hidden';
-    if (typeof filterDialog.showModal === 'function') {
-      filterDialog.showModal();
-    } else {
-      filterDialog.setAttribute('open', 'true');
-    }
+    showDialogElement(filterDialog);
   };
 
   const closeFilterDialog = () => {
-    if (!filterDialog) return;
-    document.body.style.overflow = '';
-    if (typeof filterDialog.close === 'function') {
-      filterDialog.close();
-    } else {
-      filterDialog.removeAttribute('open');
-    }
+    hideDialogElement(filterDialog);
+  };
+
+  const openAboutDialog = () => {
+    showDialogElement(aboutDialog);
+  };
+
+  const closeAboutDialog = () => {
+    hideDialogElement(aboutDialog);
   };
 
   const updateChipsForTag = (tag) => {
@@ -436,11 +484,9 @@ if (labels.length > 0) {
     chipCloud.appendChild(showFilters);
 
     clearFiltersBtn = document.createElement('button');
-    clearFiltersBtn.className = 'btn btn--text';
+    clearFiltersBtn.className = 'btn btn--text chip-cloud__clear is-hidden';
     clearFiltersBtn.type = 'button';
     clearFiltersBtn.textContent = 'Clear filters';
-    clearFiltersBtn.style.display = 'none';
-    clearFiltersBtn.style.margin = 'var(--space-lg) auto var(--space-xl)';
     clearFiltersBtn.addEventListener('click', clearAllFilters);
     chipCloud.insertAdjacentElement('afterend', clearFiltersBtn);
   }
@@ -467,12 +513,34 @@ if (labels.length > 0) {
         closeFilterDialog();
       }
     });
+    filterDialog.addEventListener('close', syncBodyScrollLock);
   }
 
   if (dialogShowSpotsBtn) {
     dialogShowSpotsBtn.addEventListener('click', () => {
       closeFilterDialog();
     });
+  }
+
+  if (aboutLink) {
+    aboutLink.addEventListener('click', () => {
+      openAboutDialog();
+    });
+  }
+
+  if (aboutCloseBtn) {
+    aboutCloseBtn.addEventListener('click', () => {
+      closeAboutDialog();
+    });
+  }
+
+  if (aboutDialog) {
+    aboutDialog.addEventListener('click', (event) => {
+      if (event.target === aboutDialog) {
+        closeAboutDialog();
+      }
+    });
+    aboutDialog.addEventListener('close', syncBodyScrollLock);
   }
 
   renderPlaces();

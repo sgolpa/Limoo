@@ -34,8 +34,33 @@
   <!-- Cards renderas via app.js -->
 </section>
 
-    <!-- (Plats för chip-cloud och cards senare) -->
   </main>
+
+  <footer class="site-footer">
+    <button id="aboutLink" class="site-footer__link" type="button" aria-haspopup="dialog" aria-controls="aboutDialog">About Limoo</button>
+  </footer>
+
+  <dialog id="aboutDialog">
+    <div class="dialog__content">
+      <header class="dialog__header">
+        <h2 class="dialog__title">About Limoo</h2>
+        <button class="dialog__close" aria-label="Close about dialog">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M19.2929 3.29297C19.6834 2.90245 20.3164 2.90245 20.707 3.29297C21.0974 3.6835 21.0974 4.31654 20.707 4.70703L13.414 12L20.707 19.293C21.0974 19.6835 21.0974 20.3165 20.707 20.707C20.3165 21.0975 19.6834 21.0975 19.2929 20.707L11.9999 13.4141L4.70696 20.707C4.31646 21.0975 3.68342 21.0975 3.29289 20.707C2.90237 20.3165 2.90237 19.6835 3.29289 19.293L10.5859 12L3.29289 4.70703C2.90237 4.31651 2.90237 3.68349 3.29289 3.29297C3.68342 2.90245 4.31643 2.90245 4.70696 3.29297L11.9999 10.5859L19.2929 3.29297Z" fill="#6E8D5E"/>
+          </svg>
+        </button>
+      </header>
+
+      <section class="dialog__section dialog__section--about">
+        <p class="dialog__text">Limoo is a curated collection of places in Stockholm, gathered by two people who simply love food and good vibes.</p>
+        <p class="dialog__text">We often find ourselves wanting to go out but not quite knowing where. Sometimes we’re in the mood for a cozy bar, sometimes a buzzing café, and sometimes something completely different.</p>
+        <p class="dialog__text">That’s why we created Limoo — a guide built around mood and feeling, not endless lists, ratings, or algorithms.</p>
+        <p class="dialog__text">Every spot you find here is handpicked by us, places we genuinely like and want to share, whether simple or refined.</p>
+        <p class="dialog__text">It’s not about covering every restaurant in the city or matching everyone’s taste, but about sharing the places that feel special to us and that we think are worth visiting. The list keeps growing as we discover new places we love.</p>
+        <p class="dialog__text">We simply hope you enjoy these places as much as we do.</p>
+      </section>
+    </div>
+  </dialog>
 
   <dialog id="filterDialog">
     <div class="dialog__content">
