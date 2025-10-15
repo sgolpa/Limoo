@@ -365,7 +365,7 @@ dialog::backdrop {
   /*padding-bottom: var(--space-2xl);*/
 }
 
-@media (max-width: 1023px) {
+/*@media (max-width: 1023px) {
   .dialog__content {
     padding-bottom: calc(140px + env(safe-area-inset-bottom));
   }
@@ -373,7 +373,7 @@ dialog::backdrop {
 .dialog__content::-webkit-scrollbar{
   display: none;
   }
-}
+}*/
 
 .dialog__header{
   position: sticky;
