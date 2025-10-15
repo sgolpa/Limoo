@@ -499,3 +499,20 @@ dialog::backdrop {
 @media (min-width: 1024px) {
   .dialog__section { padding: var(--space-2xl) var(--space-3xl); }
 }
+
+@supports (-webkit-touch-callout: none) {
+  /* Gäller bara i iOS Safari + Chrome */
+  .dialog__footer {
+    position: sticky !important;
+    bottom: 0;
+    z-index: 3;
+    background: var(--lime-peel);
+    padding: var(--space-2xl) var(--space-lg);
+  }
+
+  .dialog__content {
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: var(--space-4xl);
+  }
+}
