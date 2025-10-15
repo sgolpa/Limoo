@@ -6,6 +6,23 @@ document.addEventListener('DOMContentLoaded', async () => {
   const dialogCloseBtn = filterDialog?.querySelector('.dialog__close');
   const dialogClearBtn = filterDialog?.querySelector('.dialog__footer .btn--text');
   const dialogShowSpotsBtn = filterDialog?.querySelector('.dialog__footer .btn:last-of-type');
+  const root = document.documentElement;
+
+  const updateViewportBottomGap = () => {
+    if (!window.visualViewport) {
+      root.style.setProperty('--viewport-bottom-gap', '0px');
+      return;
+    }
+    const { height, offsetTop } = window.visualViewport;
+    const bottomGap = Math.max(0, window.innerHeight - height - offsetTop);
+    root.style.setProperty('--viewport-bottom-gap', `${Math.round(bottomGap)}px`);
+  };
+
+  updateViewportBottomGap();
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', updateViewportBottomGap);
+    window.visualViewport.addEventListener('scroll', updateViewportBottomGap);
+  }
 
   const res = await fetch('./data.json');
   const data = await res.json();

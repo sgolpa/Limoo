@@ -38,32 +38,32 @@
   </main>
 
   <dialog id="filterDialog">
-  <div class="dialog__content">
-    <header class="dialog__header">
-      <h2 class="dialog__title">What are you in the mood for?</h2>
-      <button class="dialog__close" aria-label="Close filters">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path fill-rule="evenodd" clip-rule="evenodd" d="M19.2929 3.29297C19.6834 2.90245 20.3164 2.90245 20.707 3.29297C21.0974 3.6835 21.0974 4.31654 20.707 4.70703L13.414 12L20.707 19.293C21.0974 19.6835 21.0974 20.3165 20.707 20.707C20.3165 21.0975 19.6834 21.0975 19.2929 20.707L11.9999 13.4141L4.70696 20.707C4.31646 21.0975 3.68342 21.0975 3.29289 20.707C2.90237 20.3165 2.90237 19.6835 3.29289 19.293L10.5859 12L3.29289 4.70703C2.90237 4.31651 2.90237 3.68349 3.29289 3.29297C3.68342 2.90245 4.31643 2.90245 4.70696 3.29297L11.9999 10.5859L19.2929 3.29297Z" fill="#6E8D5E"/>        </svg>
-      </button>
-    </header>
+    <div class="dialog__content">
+      <header class="dialog__header">
+        <h2 class="dialog__title">What are you in the mood for?</h2>
+        <button class="dialog__close" aria-label="Close filters">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M19.2929 3.29297C19.6834 2.90245 20.3164 2.90245 20.707 3.29297C21.0974 3.6835 21.0974 4.31654 20.707 4.70703L13.414 12L20.707 19.293C21.0974 19.6835 21.0974 20.3165 20.707 20.707C20.3165 21.0975 19.6834 21.0975 19.2929 20.707L11.9999 13.4141L4.70696 20.707C4.31646 21.0975 3.68342 21.0975 3.29289 20.707C2.90237 20.3165 2.90237 19.6835 3.29289 19.293L10.5859 12L3.29289 4.70703C2.90237 4.31651 2.90237 3.68349 3.29289 3.29297C3.68342 2.90245 4.31643 2.90245 4.70696 3.29297L11.9999 10.5859L19.2929 3.29297Z" fill="#6E8D5E"/>        </svg>
+        </button>
+      </header>
 
-    <section class="dialog__section">
-      <!-- En grupp – vi fyller chippar senare -->
-      <div class="dialog__group">
-        <h3 class="dialog__group-title">Flavor</h3>
-        <div class="dialog__chips">
-          <!-- chips kommer via JS -->
+      <section class="dialog__section">
+        <!-- En grupp – vi fyller chippar senare -->
+        <div class="dialog__group">
+          <h3 class="dialog__group-title">Flavor</h3>
+          <div class="dialog__chips">
+            <!-- chips kommer via JS -->
+          </div>
         </div>
-      </div>
-      <!-- Fler grupper (Vibe/Drinks/Extras) renderas senare -->
-    </section>
+        <!-- Fler grupper (Vibe/Drinks/Extras) renderas senare -->
+      </section>
+    </div>
 
     <footer class="dialog__footer">
       <button class="btn btn--text" type="button">Clear filters</button>
       <button class="btn" type="button">Show all spots</button>
     </footer>
-  </div>
-</dialog>
+  </dialog>
 
   <script>
     // Liten demo för att kunna se dialog-layouten (valfritt)
