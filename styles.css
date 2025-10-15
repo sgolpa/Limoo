@@ -377,7 +377,7 @@ dialog::backdrop {
 
 @media (max-width: 1023px) {
   .dialog__content {
-    padding-bottom: calc(var(--space-4xl) + env(safe-area-inset-bottom) + var(--viewport-bottom-gap));
+    padding-bottom: calc(var(--space-2xl) + env(safe-area-inset-bottom) + var(--viewport-bottom-gap));
   }
 
   .dialog__content::-webkit-scrollbar{
@@ -438,7 +438,7 @@ dialog::backdrop {
   justify-items: center;
   padding: var(--space-lg);
   display: grid;
-  gap: var(--space-3xl);
+  gap: var(--space-3xl); 
 }
 
 .dialog__group {
