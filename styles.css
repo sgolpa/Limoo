@@ -337,8 +337,10 @@ dialog::backdrop {
     border-radius: 0;
     width: 100vw;
     height: 100vh;
+    height: 100dvh; /* NY NY NY för IOS */
     max-width: 100vw;
     max-height: 100vh;
+    max-height: 100dvh; /* NY NY NY för IOS */
     margin: 0;
     overflow: hidden; /* NY NY NY  */
   }
@@ -468,11 +470,19 @@ dialog::backdrop {
   gap: var(--space-md);
 }
 
-/* mobilundatag */
+/* mobilundantag */
 @media (max-width: 1023px) {
   .dialog__content {
-    /* padding-bottom: calc(140px + env(safe-area-inset-bottom)); */
-    height: 100%; /* LÄGG TILL */
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .dialog__section {
+    padding-bottom: calc(180px + env(safe-area-inset-bottom));
+    flex: 1;
   }
 
   .dialog__footer {
@@ -486,15 +496,9 @@ dialog::backdrop {
   }
 }
 
-.dialog__footer .btn,
-.dialog__footer .btn--text {
-  white-space: nowrap;
-}
-
 @media (min-width: 768px) {
   .dialog__header  { padding: var(--space-3xl) var(--space-3xl); }
-  /*.dialog__section { padding: var(--space-4xl); } */
-  padding-bottom: calc(120px + env(safe-area-inset-bottom)); /* NY NY NY */
+  .dialog__section { padding: var(--space-4xl); } /* Tillbaka till original */
   .dialog__footer  { padding: var(--space-2xl) var(--space-3xl); }
 }
 
