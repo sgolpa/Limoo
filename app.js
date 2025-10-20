@@ -10,6 +10,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   const aboutDialog = document.getElementById('aboutDialog');
   const aboutLink = document.getElementById('aboutLink');
   const aboutCloseBtn = aboutDialog?.querySelector('.dialog__close');
+  let lastFilterDialogTrigger = null;
+  let lastAboutDialogTrigger = null;
 
   const updateViewportBottomGap = () => {
     if (!window.visualViewport) {
@@ -310,6 +312,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     trigger.setAttribute('aria-describedby', tooltipId);
     trigger.setAttribute('aria-expanded', 'false');
     trigger.setAttribute('aria-haspopup', 'true');
+    trigger.setAttribute('aria-label', `Show details for ${title}`);
 
     trigger.appendChild(makeLabelIcon());
     trigger.appendChild(document.createTextNode(title));
@@ -523,6 +526,14 @@ if (labels.length > 0) {
     }
   };
 
+  const focusElement = (element) => {
+    if (!element || typeof element.focus !== 'function') return;
+    if (!element.isConnected) return;
+    window.requestAnimationFrame(() => {
+      element.focus({ preventScroll: true });
+    });
+  };
+
   const hideDialogElement = (dialog) => {
     if (!dialog) return;
     if (typeof dialog.close === 'function') {
@@ -533,20 +544,26 @@ if (labels.length > 0) {
     syncBodyScrollLock();
   };
 
-  const openFilterDialog = () => {
+  const openFilterDialog = (trigger) => {
+    lastFilterDialogTrigger = trigger ?? document.activeElement;
     showDialogElement(filterDialog);
   };
 
   const closeFilterDialog = () => {
     hideDialogElement(filterDialog);
+    focusElement(lastFilterDialogTrigger);
+    lastFilterDialogTrigger = null;
   };
 
-  const openAboutDialog = () => {
+  const openAboutDialog = (trigger) => {
+    lastAboutDialogTrigger = trigger ?? document.activeElement;
     showDialogElement(aboutDialog);
   };
 
   const closeAboutDialog = () => {
     hideDialogElement(aboutDialog);
+    focusElement(lastAboutDialogTrigger);
+    lastAboutDialogTrigger = null;
   };
 
   const updateChipsForTag = (tag) => {
@@ -650,8 +667,8 @@ if (labels.length > 0) {
     showFilters.type = 'button';
     showFilters.textContent = 'Show all filters';
     if (filterDialog) {
-      showFilters.addEventListener('click', () => {
-        openFilterDialog();
+      showFilters.addEventListener('click', (event) => {
+        openFilterDialog(event.currentTarget);
       });
     }
     chipCloud.appendChild(showFilters);
@@ -696,8 +713,8 @@ if (labels.length > 0) {
   }
 
   if (aboutLink) {
-    aboutLink.addEventListener('click', () => {
-      openAboutDialog();
+    aboutLink.addEventListener('click', (event) => {
+      openAboutDialog(event.currentTarget);
     });
   }
 
