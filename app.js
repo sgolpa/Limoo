@@ -462,6 +462,11 @@ if (labels.length > 0) {
           extraTagCount,
         };
       })
+      .filter((entry) => {
+        if (!entry) return false;
+        if (!showMatches) return true;
+        return entry.matchCount > 0;
+      })
       .sort((a, b) => {
         if (!showMatches) return a.place.order - b.place.order;
         if (b.matchCount !== a.matchCount) return b.matchCount - a.matchCount;
