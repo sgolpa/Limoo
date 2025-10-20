@@ -152,13 +152,181 @@ document.addEventListener('DOMContentLoaded', async () => {
     return chip;
   };
 
+  let labelTooltipId = 0;
+
+  const tooltipController = (() => {
+    let activeEntry = null;
+    let hideTimer = null;
+
+    const clearHideTimer = () => {
+      if (!hideTimer) return;
+      window.clearTimeout(hideTimer);
+      hideTimer = null;
+    };
+
+    const handleDocumentPointerDown = (event) => {
+      if (!activeEntry) return;
+      const { trigger, tooltip } = activeEntry;
+      if (trigger.contains(event.target) || tooltip.contains(event.target)) return;
+      close({ restoreFocus: false });
+    };
+
+    const handleDocumentKeyDown = (event) => {
+      if (!activeEntry || event.key !== 'Escape') return;
+      event.preventDefault();
+      close({ restoreFocus: true });
+    };
+
+    const attachGlobals = () => {
+      document.addEventListener('pointerdown', handleDocumentPointerDown);
+      document.addEventListener('keydown', handleDocumentKeyDown);
+    };
+
+    const detachGlobals = () => {
+      document.removeEventListener('pointerdown', handleDocumentPointerDown);
+      document.removeEventListener('keydown', handleDocumentKeyDown);
+    };
+
+    const open = (trigger, tooltip, { viaTouch = false } = {}) => {
+      if (activeEntry && activeEntry.trigger === trigger) {
+        activeEntry.viaTouch = viaTouch;
+        tooltip.hidden = false;
+        tooltip.setAttribute('aria-hidden', 'false');
+        trigger.setAttribute('aria-expanded', 'true');
+        trigger.parentElement?.classList.add('label--open');
+        trigger.classList.add('is-open');
+        clearHideTimer();
+        return;
+      }
+
+      if (activeEntry) {
+        close({ restoreFocus: false });
+      }
+
+      tooltip.hidden = false;
+      tooltip.setAttribute('aria-hidden', 'false');
+      trigger.setAttribute('aria-expanded', 'true');
+      trigger.parentElement?.classList.add('label--open');
+      trigger.classList.add('is-open');
+      activeEntry = { trigger, tooltip, viaTouch };
+      clearHideTimer();
+      attachGlobals();
+    };
+
+    const close = ({ restoreFocus } = {}) => {
+      if (!activeEntry) return;
+      const { trigger, tooltip, viaTouch } = activeEntry;
+      const shouldRestoreFocus = restoreFocus ?? viaTouch;
+      tooltip.hidden = true;
+      tooltip.setAttribute('aria-hidden', 'true');
+      trigger.setAttribute('aria-expanded', 'false');
+      trigger.parentElement?.classList.remove('label--open');
+      trigger.classList.remove('is-open');
+      activeEntry = null;
+      clearHideTimer();
+      detachGlobals();
+      if (shouldRestoreFocus) {
+        window.requestAnimationFrame(() => {
+          trigger.focus({ preventScroll: true });
+        });
+      }
+    };
+
+    const scheduleHide = (trigger, delay = 100) => {
+      if (!activeEntry || activeEntry.trigger !== trigger) return;
+      clearHideTimer();
+      hideTimer = window.setTimeout(() => {
+        close({ restoreFocus: false });
+      }, delay);
+    };
+
+    const register = (trigger, tooltip) => {
+      const cancelHide = () => clearHideTimer();
+
+      trigger.addEventListener('pointerenter', (event) => {
+        if (event.pointerType === 'touch') return;
+        cancelHide();
+        open(trigger, tooltip);
+      });
+
+      trigger.addEventListener('pointerleave', (event) => {
+        if (event.pointerType === 'touch') return;
+        scheduleHide(trigger);
+      });
+
+      tooltip.addEventListener('pointerenter', cancelHide);
+      tooltip.addEventListener('pointerleave', () => {
+        scheduleHide(trigger);
+      });
+
+      trigger.addEventListener('focus', () => {
+        cancelHide();
+        open(trigger, tooltip);
+      });
+
+      trigger.addEventListener('blur', () => {
+        scheduleHide(trigger);
+      });
+
+      trigger.addEventListener('pointerup', (event) => {
+        if (event.pointerType !== 'touch') return;
+        if (activeEntry && activeEntry.trigger === trigger) {
+          close({ restoreFocus: true });
+        } else {
+          cancelHide();
+          open(trigger, tooltip, { viaTouch: true });
+        }
+      });
+
+      trigger.addEventListener('keydown', (event) => {
+        if (event.key !== 'Escape') return;
+        if (!activeEntry || activeEntry.trigger !== trigger) return;
+        event.preventDefault();
+        close({ restoreFocus: true });
+      });
+    };
+
+    return { register };
+  })();
+
   const makeLabel = ({ title, description }) => {
-    const label = document.createElement('span');
-    label.className = 'label';
-    if (description) label.title = description;
-    label.appendChild(makeLabelIcon());
-    label.appendChild(document.createTextNode(title));
-    return label;
+    if (!description) {
+      const fallbackLabel = document.createElement('span');
+      fallbackLabel.className = 'label label--static';
+      fallbackLabel.appendChild(makeLabelIcon());
+      fallbackLabel.appendChild(document.createTextNode(title));
+      return fallbackLabel;
+    }
+
+    labelTooltipId += 1;
+    const tooltipId = `label-tooltip-${labelTooltipId}`;
+
+    const container = document.createElement('span');
+    container.className = 'label';
+
+    const trigger = document.createElement('button');
+    trigger.type = 'button';
+    trigger.className = 'label__trigger';
+    trigger.setAttribute('aria-describedby', tooltipId);
+    trigger.setAttribute('aria-expanded', 'false');
+    trigger.setAttribute('aria-haspopup', 'true');
+
+    trigger.appendChild(makeLabelIcon());
+    trigger.appendChild(document.createTextNode(title));
+
+    const tooltip = document.createElement('span');
+    tooltip.className = 'label__tooltip';
+    tooltip.id = tooltipId;
+    tooltip.setAttribute('role', 'tooltip');
+    tooltip.textContent = description;
+    tooltip.hidden = true;
+    tooltip.setAttribute('aria-hidden', 'true');
+
+    container.append(trigger, tooltip);
+
+    tooltipController.register(trigger, tooltip);
+
+    return container;
   };
 
   const MAX_VISIBLE_TAGS = 3;

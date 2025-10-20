@@ -10,7 +10,7 @@
       "buzzing", "cozy", "friendly", "fine casual", "laid-back", "neighborly", "quiet"
     ],
     "Drinks": [
-      "cocktails", "craft beer", "sake"
+      "cocktails", "craft beer", "sake", "wine bar"
     ],
     "Extras": [
       "authentic", "outdoor seating", "shared dining", "small plates"
@@ -52,7 +52,7 @@
         "outdoor seating"
       ],
       "labels": [
-        { "title": "Dessert Heaven", "description": "Best cheesecakes in town" }
+        { "title": "Dessert Heaven", "description": "Desserts so good, we still dream about them days later." }
       ]
     },
     {
@@ -82,6 +82,21 @@
         "outdoor seating"
       ],
       "labels": []
+    },
+    {
+      "id": "las-brasas",
+      "name": "Las Brasas",
+      "mapsUrl": "https://maps.google.com/?q=Las%20Brasas%20Stockholm",
+      "tags": [
+        "south american",
+        "spanish",
+        "tapas",
+        "buzzing",
+        "outdoor seating"
+      ],
+      "labels": [
+        { "title": "Plated Nicely", "description": "Plates so pretty you’ll reach for your phone before your fork." }
+      ]
     },
     {
       "id": "asian-post-office",
@@ -121,7 +136,7 @@
         "buzzing"
       ],
       "labels": [
-        { "title": "Stylish", "description": "Trendy interior and atmosphere" }
+        { "title": "Stylish", "description": "Design perfection with warmth and soul! Like a magazine come to life." }
       ]
     },
     {
@@ -179,7 +194,7 @@
         "outdoor seating"
       ],
       "labels": [
-        { "title": "Hidden Gem", "description": "Beloved by locals, away from the tourist crowds" }
+        { "title": "Hidden Gem", "description": "A surprising little find that makes the neighborhood shine." }
       ]
     },
     {
@@ -195,21 +210,6 @@
         "outdoor seating"
       ],
       "labels": []
-    },
-    {
-      "id": "las-brasas",
-      "name": "Las Brasas",
-      "mapsUrl": "https://maps.google.com/?q=Las%20Brasas%20Stockholm",
-      "tags": [
-        "south american",
-        "spanish",
-        "tapas",
-        "buzzing",
-        "outdoor seating"
-      ],
-      "labels": [
-        { "title": "Plated Nicely", "description": "Every dish is served with extra style" }
-      ]
     },
     {
       "id": "spanjorskan",
@@ -237,7 +237,7 @@
         "outdoor seating"
       ],
       "labels": [
-        { "title": "Packed Charm", "description": "Always full, always lively, yet super charming" }
+        { "title": "Tiny Delight", "description": "A little tight, a lot of charm." }
       ]
     },
     {
@@ -249,6 +249,21 @@
         "kabob",
         "stews",
         "buzzing"
+      ],
+      "labels": []
+    },
+    {
+      "id": "bar-arsenalen",
+      "name": "Bar Arsenalen",
+      "mapsUrl": "https://maps.app.goo.gl/Xbe3iA7qirn4e1zk7",
+      "tags": [
+        "swedish",
+        "fine casual",
+        "cozy",
+        "friendly",
+        "laid-back",
+        "wine bar",
+        "small plates"
       ],
       "labels": []
     }

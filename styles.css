@@ -19,6 +19,7 @@
   --dried-lime: #6E8D5E;
   --root-moss: #365327;
 
+  --radius-xs: 8px;
   --radius: 24px;
   --radius-xl: 999px;
   --viewport-bottom-gap: 0px;
@@ -100,11 +101,6 @@ body{
   place-items: center;
   padding: var(--space-3xl) var(--space-lg) 0;
 }
-
-/*.brand{ kvar ifall jag ska ha länkar
-  display: grid;
-  place-items: center;
-}*/
 
 /* —— Intro —— */
 .intro{
@@ -276,8 +272,15 @@ body{
   height: 40px;
 }
 
-.card__header:hover .card__icon path {
+.card__title:focus-visible .card__icon path {
   fill: var(--lime-flesh);
+}
+
+@media (hover: hover) {
+  .card__title:hover .card__icon path,
+  .card__title:focus-visible .card__icon path {
+    fill: var(--lime-flesh);
+  }
 }
 
 .card__match-count{
@@ -346,10 +349,11 @@ body{
 }
 
 .label{
+  position: relative;
   display: inline-flex;
   align-items: center;
   margin-left: auto;
-  order: 2;            
+  order: 2;
   white-space: nowrap;
   font-family: "Lexend Exa", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   font-weight: 400;
@@ -357,7 +361,66 @@ body{
   line-height: 16px;
   text-align: center;
   color: var(--lime-flesh);
+}
+
+.label--static{
   gap: var(--space-xs);
+}
+
+.label__trigger{
+  appearance: none;
+  border: none;
+  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  border-radius: var(--radius-xl);
+  transition: color 0.2s ease;
+}
+
+.label__trigger:hover,
+.label__trigger:focus-visible{
+  color: #ABC94A;
+}
+
+.label__trigger:focus-visible{
+  outline: 2px solid rgba(208, 224, 144, 0.6);
+  outline-offset: 2px;
+}
+
+.label__tooltip{
+  position: absolute;
+  display: inline-block;
+  inset-block-end: calc(100% + var(--space-sm));
+  inset-block-start: auto;
+  inset-inline-start: 50%;
+  transform: translate(-50%, 4px);
+  background: var(--albedo);
+  color: var(--branch);
+  border-radius: var(--radius-xs);
+  padding: var(--space-sm) var(--space-sm);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  text-align: left;
+  box-shadow: 0 0px 12px 0 rgba(0, 0, 0, 0.40);
+  max-width: min(260px, calc(100vw - 32px));
+  min-width: 180px;
+  pointer-events: none;
+  white-space: normal;
+  opacity: 0;
+  z-index: 4;
+  transition: opacity 0.16s ease, transform 0.16s ease;
+}
+
+.label--open .label__tooltip{
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, 0);
 }
 
 @media (max-width: 767px){
@@ -367,9 +430,18 @@ body{
     margin: 0 0 var(--space-md) 0;
   }
 
+  .label__tooltip{
+    inset-inline-start: 0;
+    transform: translate(0, 4px);
+  }
+
+  .label--open .label__tooltip{
+    transform: translate(0, 0);
+  }
+
    .card__match-count {
     order: 2;
-    flex-basis: auto;   /* valfritt, men här får den följa innehållet */
+    flex-basis: auto;
     margin: 0 0 var(--space-md);
   }
 }
@@ -377,7 +449,24 @@ body{
 .label__icon{
   width: 16px;
   height: 16px;
-  color: var(--lime-flesh);
+  color: currentColor;
+  fill: currentColor;
+  flex-shrink: 0;
+  transition: color 0.2s ease, fill 0.2s ease;
+}
+
+.label__icon path {
+  fill: currentColor;
+}
+
+.label__tooltip[hidden]{
+  display: none !important;
+}
+
+@media (prefers-reduced-motion: reduce){
+  .label__tooltip{
+    transition: none;
+  }
 }
 
 /* —— Dialog —— */
